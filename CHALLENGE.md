@@ -18,7 +18,7 @@ Here's another example - given an array of `[4, 3, 2, 7, 8, 2, 3]`, your functio
 	- A `README.md` which includes the problem domain
 1. Complete the whiteboard challenge in your text editor, and verify that it's functional.
 1. Make a pull request from your working branch to your master branch.
-1. Submit a link to your PR on Canvas *or* submit a link to your `repo/daily-whiteboarding-directory/solution.js`
+1. Submit a link to your PR on Canvas or submit a link to your `repo/daily-whiteboarding-directory/solution.js`
 
 ## Stretch Goal
 
