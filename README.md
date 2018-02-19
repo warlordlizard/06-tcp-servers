@@ -20,7 +20,6 @@ Configure the root of your repository with the following files and directories. 
   * create a `test` script for running tests
   * create a `start` script for running your server
 * **lib/** - contains module definitions
-* **\_\_test\_\_/** - contains unit tests
 
 ## Feature Tasks  
 For this assignment, you will be building a TCP chatroom. Clients should be able to connect to the chatroom through the use of telnet. Clients should also be able to run special commands to exit the chatroom, list all users, reset their nickname, and send direct messages. You may add as many features to this application as you would like. Do not use any third party libraries and testing is *not* required.
