@@ -15,13 +15,23 @@ ee.on('@all', function(client, string) {
   });
 });
 
-ee.on('@dm', function(cleint, string) {
+ee.on('@list', function(client) {
+  var conUsers = [];
+  pool.forEach( c => {
+    console.log(c);
+    conUsers.push(c.nickname + '\n' );
+  });
+  var joinedUsers = conUsers.join(' ');
+  client.socket.write(`List of connected users:\n ${joinedUsers}\n`);
+});
+
+ee.on('@dm', function(client, string) {
   var nickname = string.split(' ').shift().trim();
   var message = string.split(' ').splice(1).join(' ').trim();
-
   pool.forEach( c => {
     if(c.nickname === nickname) {
-      c.socket.write(`@{client.nickname}: ${message}`);
+      client.socket.write(`[you] -> [${c.nickname}]: ${message}\n`);
+      c.socket.write(`[${client.nickname}] -> [you]: ${message}\n`);
     }
   });
 });
@@ -29,7 +39,7 @@ ee.on('@dm', function(cleint, string) {
 ee.on('@nickname', function(client, string) {
   let nickname = string.split(' ').shift().trim();
   client.nickname = nickname;
-  client.socket.write(`user nickname has been changed to ${client.nickname}\n`);
+  client.socket.write(`Your nickname has been changed to ${client.nickname}\n`);
 });
 
 ee.on('default', function(client) {
@@ -38,6 +48,10 @@ ee.on('default', function(client) {
 
 ee.on('@help', function(client) {
   client.socket.write('Here is a helpful list of commands:\n @quit to disconnect\n @list to list all connected users\n @nickname <new-name> to change their nickname\n @dm <to-username> <message> to send a message directly to another user by their nickname\n @help shows list of commands\n @all <message> sends message to all connected users\n');
+});
+
+ee.on('@quit', function(client) {
+  client.socket.end();
 });
 
 server.on('connection', function(socket){
@@ -50,6 +64,17 @@ server.on('connection', function(socket){
       return;
     }
     ee.emit('default', client, data.toString());
+  });
+  socket.on('close', function() {
+    var index = pool.indexOf(client);
+    console.log(index);
+    pool.splice(index, 1);
+    pool.forEach( c => {
+      c.socket.write(`user ${client.nickname} has left the chatroom\n`);
+    });
+  });
+  socket.on('error', function() {
+    console.log(err);
   });
 });
 
