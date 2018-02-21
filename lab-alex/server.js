@@ -36,6 +36,10 @@ ee.on('default', function(client) {
   client.socket.write('not a command - please use an @ symbol\n');
 });
 
+ee.on('@help', function(client) {
+  client.socket.write('Here is a helpful list of commands:\n @quit to disconnect\n @list to list all connected users\n @nickname <new-name> to change their nickname\n @dm <to-username> <message> to send a message directly to another user by their nickname\n @help shows list of commands\n @all <message> sends message to all connected users\n');
+});
+
 server.on('connection', function(socket){
   var client = new Client(socket);
   pool.push(client);
